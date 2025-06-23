@@ -1,5 +1,6 @@
 import type { ShoppingItem } from "./ShoppingItem.ts";
-import { ActiveState, type State } from "./State.ts";
+import { StateFactory } from "../factories/StateFactory.ts";
+import type { State } from "./State.ts";
 
 
 export class RegularItem implements ShoppingItem {
@@ -9,12 +10,17 @@ export class RegularItem implements ShoppingItem {
     category: string;
     state: State;
 
-    constructor(name: string, quantity: number, category: string) {
+    constructor(
+        name: string,
+        quantity: number,
+        category: string,
+        stateName: string = 'Active' // Default state is "Active"
+    ) {
         this.id = crypto.randomUUID();
         this.name = name;
         this.quantity = quantity;
         this.category = category;
-        this.state = new ActiveState(); // Default state "Active"
+        this.state = StateFactory.getState(stateName); // Создаём состояние через фабрику
     }
 
     setState(state: State): void {
