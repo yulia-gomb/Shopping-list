@@ -1,39 +1,73 @@
 import './style.css'
 import { RegularItemFactory } from "./patterns/ItemFactory.ts";
 import { LocalStorageService } from "./services/LocalStorageService.ts";
-import {Observable} from "./services/Observer.ts";
-import {UIService} from "./ui/UIService.ts";
+import { Observable } from "./services/Observer.ts";
+import { UIService } from "./ui/UIService.ts";
+import { categories } from './data/categories';
 
+// Function to dynamically render category options into a <select> element
+const renderCategoryOptions = (categories: string[], selectElement: HTMLSelectElement): void => {
+    selectElement.innerHTML = ''; // Clear any existing options
+    categories.forEach((category) => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        selectElement.appendChild(option);
+    });
+};
+
+// Load shopping list data from LocalStorage
 const initialData = LocalStorageService.load();
 const shoppingList = new Observable(initialData);
 
+// Initialize UI (binds shopping list data with the DOM)
 const listContainerId = 'shopping-list';
 new UIService(listContainerId, shoppingList);
 
+// Create a factory for generating shopping items
 const factory = new RegularItemFactory();
 
+// Add a new item to the shopping list
 const addItem = (name: string, quantity: number, category: string): void => {
     const newItem = factory.createItem(name, quantity, category);
+
+    // Update the shopping list
     const updatedList = [...shoppingList.getData(), newItem];
     shoppingList.setData(updatedList);
+
+    // Save updated list to LocalStorage
     LocalStorageService.save(updatedList);
 };
 
-document.getElementById('add-item-btn')?.addEventListener('click', () => {
-    const name = (document.getElementById('item-name') as HTMLInputElement)?.value;
-    const quantity = Number(
-        (document.getElementById('item-quantity') as HTMLInputElement)?.value
-    );
-    const category = (document.getElementById('item-category') as HTMLInputElement)
-        ?.value;
+// Render category options dynamically on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const categorySelect = document.getElementById('item-category') as HTMLSelectElement;
 
-    if (name && quantity && category) {
-        addItem(name, quantity, category);
-
-        (document.getElementById('item-name') as HTMLInputElement).value = '';
-        (document.getElementById('item-quantity') as HTMLInputElement).value = '';
-        (document.getElementById('item-category') as HTMLInputElement).value = '';
+    if (categorySelect) {
+        renderCategoryOptions(categories, categorySelect); // Render category options in the dropdown
     }
 });
 
+// Handle the "Add Item" button logic
+document.getElementById('add-item-btn')?.addEventListener('click', () => {
+    const nameInput = document.getElementById('item-name') as HTMLInputElement;
+    const quantityInput = document.getElementById('item-quantity') as HTMLInputElement;
+    const categorySelect = document.getElementById('item-category') as HTMLSelectElement;
+
+    const name = nameInput.value;
+    const quantity = Number(quantityInput.value);
+    const category = categorySelect.value; // Get the selected category value
+
+    if (name && quantity && category) {
+        // Add the new item to the shopping list
+        addItem(name, quantity, category);
+
+        // Clear the input fields after adding the item
+        nameInput.value = '';
+        quantityInput.value = '';
+        categorySelect.selectedIndex = 0; // Reset the dropdown to the first option
+    }
+});
+
+// Notify the UI to render the initial shopping list data
 shoppingList.notify();
