@@ -7,7 +7,7 @@ export class ActiveState implements State {
     name = 'Active';
 
     handle(): void {
-        console.log('Item is in an active state.');
+        console.log('Item is in active state.');
     }
 }
 
