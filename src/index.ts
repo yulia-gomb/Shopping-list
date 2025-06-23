@@ -1,20 +1,39 @@
 import './style.css'
 import { RegularItemFactory } from "./patterns/ItemFactory.ts";
 import { LocalStorageService } from "./services/LocalStorageService.ts";
+import {Observable} from "./services/Observer.ts";
+import {UIService} from "./ui/UIService.ts";
 
-// Create a factory for regular items
+const initialData = LocalStorageService.load();
+const shoppingList = new Observable(initialData);
+
+const listContainerId = 'shopping-list';
+new UIService(listContainerId, shoppingList);
+
 const factory = new RegularItemFactory();
 
-// Load existing items from LocalStorage
-const shoppingList = LocalStorageService.load();
+const addItem = (name: string, quantity: number, category: string): void => {
+    const newItem = factory.createItem(name, quantity, category);
+    const updatedList = [...shoppingList.getData(), newItem];
+    shoppingList.setData(updatedList);
+    LocalStorageService.save(updatedList);
+};
 
-// Add a new item to the list
-const newItem = factory.createItem('Apples', 5, 'Fruits');
-shoppingList.push(newItem);
+document.getElementById('add-item-btn')?.addEventListener('click', () => {
+    const name = (document.getElementById('item-name') as HTMLInputElement)?.value;
+    const quantity = Number(
+        (document.getElementById('item-quantity') as HTMLInputElement)?.value
+    );
+    const category = (document.getElementById('item-category') as HTMLInputElement)
+        ?.value;
 
-// Save updated list to LocalStorage
-LocalStorageService.save(shoppingList);
+    if (name && quantity && category) {
+        addItem(name, quantity, category);
 
-console.log('Shopping list updated:', shoppingList);
+        (document.getElementById('item-name') as HTMLInputElement).value = '';
+        (document.getElementById('item-quantity') as HTMLInputElement).value = '';
+        (document.getElementById('item-category') as HTMLInputElement).value = '';
+    }
+});
 
-
+shoppingList.notify();
