@@ -6,6 +6,7 @@ import { UIService } from "./ui/UIService.ts";
 import { categories } from './data/categories';
 import { CommandManager } from "./services/CommandManager.ts";
 import { AddItemCommand } from "./patterns/AddItemCommand.ts";
+import {PrioritizedItem} from "./decorators/PrioritizedItem.ts";
 
 // Function to dynamically render category options into a <select> element
 const renderCategoryOptions = (categories: string[], selectElement: HTMLSelectElement): void => {
@@ -33,11 +34,13 @@ new UIService(listContainerId, shoppingList, commandManager);
 const factory = new RegularItemFactory();
 
 // Add a new item to the shopping list via CommandManager
-const addItem = (name: string, quantity: number, category: string): void => {
+const addItem = (name: string, quantity: number, category: string, isPriority: boolean): void => {
     const newItem = factory.createItem(name, quantity, category);
 
-    // Execute "Add Item" command
-    const command = new AddItemCommand(shoppingList, newItem);
+    // Wrap the item in `PrioritizedItem` if it's priority
+    const finalItem = isPriority ? new PrioritizedItem(newItem, true) : newItem;
+
+    const command = new AddItemCommand(shoppingList, finalItem);
     commandManager.executeCommand(command);
 };
 
@@ -55,19 +58,22 @@ document.getElementById('add-item-btn')?.addEventListener('click', () => {
     const nameInput = document.getElementById('item-name') as HTMLInputElement;
     const quantityInput = document.getElementById('item-quantity') as HTMLInputElement;
     const categorySelect = document.getElementById('item-category') as HTMLSelectElement;
+    const isPriorityCheckbox = document.getElementById('item-priority') as HTMLInputElement;
 
     const name = nameInput.value;
     const quantity = Number(quantityInput.value);
-    const category = categorySelect.value; // Get the selected category value
+    const category = categorySelect.value;
+    const isPriority = isPriorityCheckbox.checked;
 
     if (name && quantity && category) {
         // Add the new item to the shopping list
-        addItem(name, quantity, category);
+        addItem(name, quantity, category, isPriority);
 
         // Clear the input fields after adding the item
         nameInput.value = '';
         quantityInput.value = '';
-        categorySelect.selectedIndex = 0; // Reset the dropdown to the first option
+        categorySelect.selectedIndex = 0;
+        isPriorityCheckbox.checked = false;
     }
 });
 
