@@ -3,10 +3,10 @@ import { RegularItemFactory } from "./patterns/ItemFactory.ts";
 import { LocalStorageService } from "./services/LocalStorageService.ts";
 import { Observable } from "./services/Observer.ts";
 import { UIService } from "./ui/UIService.ts";
-import { categories } from './data/categories';
 import { CommandManager } from "./services/CommandManager.ts";
 import { AddItemCommand } from "./patterns/AddItemCommand.ts";
-import {PrioritizedItem} from "./decorators/PrioritizedItem.ts";
+import { PrioritizedItem } from "./decorators/PrioritizedItem.ts";
+import { CategoryService } from "./services/CategoryService.ts";
 
 // Function to dynamically render category options into a <select> element
 const renderCategoryOptions = (categories: string[], selectElement: HTMLSelectElement): void => {
@@ -44,12 +44,12 @@ const addItem = (name: string, quantity: number, category: string, isPriority: b
     commandManager.executeCommand(command);
 };
 
-// Render category options dynamically on page load
+// Render category options
 document.addEventListener('DOMContentLoaded', () => {
     const categorySelect = document.getElementById('item-category') as HTMLSelectElement;
 
     if (categorySelect) {
-        renderCategoryOptions(categories, categorySelect); // Render category options in the dropdown
+        renderCategoryOptions(CategoryService.getCategories(), categorySelect);
     }
 });
 
