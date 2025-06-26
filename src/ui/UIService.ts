@@ -18,28 +18,27 @@ export class UIService {
     }
 
     render(): void {
-        // Clear the current list in the DOM
+        // Clear the existing list
         this.listElement.innerHTML = '';
 
         const items = this.items.getData();
 
-        // Loop through items and render them
         items.forEach((item) => {
-            // Skip rendering items with state 'Removed'
             if (item.getState().name === 'Removed') {
-                return;
+                return; // Skip removed items
             }
 
             const listItem = document.createElement('li');
 
-            // Apply a strikethrough style if the item's state is 'Purchased'
-            if (item.getState().name === 'Purchased') {
-                listItem.style.textDecoration = 'line-through';
+            // Highlight prioritized items
+            if ('isPriority' in item && (item as any).isPriority()) {
+                listItem.style.color = 'red'; // Example: red color for priority items
+                listItem.textContent = `⭐ ${item.name} (${item.quantity}) - ${item.category} [${item.getState().name}]`;
+            } else {
+                listItem.textContent = `${item.name} (${item.quantity}) - ${item.category} [${item.getState().name}]`;
             }
 
-            listItem.textContent = `${item.name} (${item.quantity}) - ${item.category} [${item.getState().name}]`;
-
-            // Button: Mark as Purchased
+            // Add buttons for changing state
             const purchaseButton = document.createElement('button');
             purchaseButton.textContent = 'Purchased';
             purchaseButton.onclick = () => {
@@ -47,7 +46,6 @@ export class UIService {
                 this.commandManager.executeCommand(command);
             };
 
-            // Button: Mark as Removed
             const removeButton = document.createElement('button');
             removeButton.textContent = 'Remove';
             removeButton.onclick = () => {
