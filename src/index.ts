@@ -1,12 +1,13 @@
 import './style.css'
 import { RegularItemFactory } from "./patterns/ItemFactory.ts";
-import { LocalStorageService } from "./services/LocalStorageService.ts";
+import { LocalStorageService } from "./services/storage/LocalStorageService.ts";
 import { Observable } from "./services/Observer.ts";
 import { UIService } from "./ui/UIService.ts";
 import { CommandManager } from "./services/CommandManager.ts";
 import { AddItemCommand } from "./patterns/AddItemCommand.ts";
 import { PrioritizedItem } from "./decorators/PrioritizedItem.ts";
 import { CategoryService } from "./services/CategoryService.ts";
+import { ControlPanel } from "./ui/components/ControlPanel.ts";
 
 // Function to dynamically render category options into a <select> element
 const renderCategoryOptions = (categories: string[], selectElement: HTMLSelectElement): void => {
@@ -51,6 +52,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (categorySelect) {
         renderCategoryOptions(CategoryService.getCategories(), categorySelect);
     }
+
+    // Initialize the ControlPanel to handle Undo/Redo
+    const controlPanel = ControlPanel.createControls(
+        () => commandManager.undo(),
+        () => commandManager.redo()
+    );
+
+    // Add the ControlPanel to the DOM
+    document.body.insertBefore(controlPanel, document.getElementById('shopping-list'));
 });
 
 // Handle the "Add Item" button logic
@@ -75,15 +85,6 @@ document.getElementById('add-item-btn')?.addEventListener('click', () => {
         categorySelect.selectedIndex = 0;
         isPriorityCheckbox.checked = false;
     }
-});
-
-// Undo/Redo functionality
-document.getElementById('undo-button')?.addEventListener('click', () => {
-    commandManager.undo();
-});
-
-document.getElementById('redo-button')?.addEventListener('click', () => {
-    commandManager.redo();
 });
 
 // Notify the UI to render the initial shopping list data
