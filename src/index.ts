@@ -4,10 +4,12 @@ import { LocalStorageService } from "./services/LocalStorageService.ts";
 import { Observable } from "./services/Observer.ts";
 import { UIService } from "./ui/UIService.ts";
 import { categories } from './data/categories';
+import { CommandManager } from "./services/CommandManager.ts";
+import { AddItemCommand } from "./patterns/AddItemCommand.ts";
 
-// Function to dynamically render category options into a <select> element
+// render category options
 const renderCategoryOptions = (categories: string[], selectElement: HTMLSelectElement): void => {
-    selectElement.innerHTML = ''; // Clear any existing options
+    selectElement.innerHTML = '';
     categories.forEach((category) => {
         const option = document.createElement('option');
         option.value = category;
@@ -20,26 +22,26 @@ const renderCategoryOptions = (categories: string[], selectElement: HTMLSelectEl
 const initialData = LocalStorageService.load();
 const shoppingList = new Observable(initialData);
 
-// Initialize UI (binds shopping list data with the DOM)
+// Initialize UI
 const listContainerId = 'shopping-list';
 new UIService(listContainerId, shoppingList);
 
 // Create a factory for generating shopping items
 const factory = new RegularItemFactory();
 
-// Add a new item to the shopping list
+// Initialize CommandManager for Undo/Redo functionality
+const commandManager = new CommandManager();
+
+// Add a new item to the shopping list via CommandManager
 const addItem = (name: string, quantity: number, category: string): void => {
     const newItem = factory.createItem(name, quantity, category);
 
-    // Update the shopping list
-    const updatedList = [...shoppingList.getData(), newItem];
-    shoppingList.setData(updatedList);
-
-    // Save updated list to LocalStorage
-    LocalStorageService.save(updatedList);
+    // Execute Add Item
+    const command = new AddItemCommand(shoppingList, newItem);
+    commandManager.executeCommand(command);
 };
 
-// Render category options dynamically on page load
+// Render category options
 document.addEventListener('DOMContentLoaded', () => {
     const categorySelect = document.getElementById('item-category') as HTMLSelectElement;
 
@@ -48,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Handle the "Add Item" button logic
+// Handle the Add Item
 document.getElementById('add-item-btn')?.addEventListener('click', () => {
     const nameInput = document.getElementById('item-name') as HTMLInputElement;
     const quantityInput = document.getElementById('item-quantity') as HTMLInputElement;
@@ -56,18 +58,26 @@ document.getElementById('add-item-btn')?.addEventListener('click', () => {
 
     const name = nameInput.value;
     const quantity = Number(quantityInput.value);
-    const category = categorySelect.value; // Get the selected category value
+    const category = categorySelect.value;
 
     if (name && quantity && category) {
-        // Add the new item to the shopping list
+        // Add the new item
         addItem(name, quantity, category);
 
         // Clear the input fields after adding the item
         nameInput.value = '';
         quantityInput.value = '';
-        categorySelect.selectedIndex = 0; // Reset the dropdown to the first option
+        categorySelect.selectedIndex = 0;
     }
 });
 
-// Notify the UI to render the initial shopping list data
+// Undo/Redo functionality
+document.getElementById('undo-button')?.addEventListener('click', () => {
+    commandManager.undo();
+});
+
+document.getElementById('redo-button')?.addEventListener('click', () => {
+    commandManager.redo();
+});
+
 shoppingList.notify();
