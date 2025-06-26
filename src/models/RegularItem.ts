@@ -1,5 +1,5 @@
 import type { ShoppingItem } from "./ShoppingItem.ts";
-import { StateFactory } from "../factories/StateFactory.ts";
+import { StateFactory } from "../services/state/StateFactory.ts";
 import type { State } from "./State.ts";
 
 

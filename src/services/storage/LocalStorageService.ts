@@ -1,7 +1,7 @@
-import type { ShoppingItem } from "../models/ShoppingItem.ts";
-import { RegularItem } from "../models/RegularItem.ts";
-import { StateFactory } from "../factories/StateFactory.ts";
-import { PrioritizedItem } from "../decorators/PrioritizedItem.ts";
+import type { ShoppingItem } from "../../models/ShoppingItem.ts";
+import { RegularItem } from "../../models/RegularItem.ts";
+import { StateFactory } from "../state/StateFactory.ts";
+import { PrioritizedItem } from "../../decorators/PrioritizedItem.ts";
 
 export class LocalStorageService {
     private static storageKey = 'shoppingList';

@@ -2,7 +2,7 @@ import type { Command } from "./Command.ts";
 import type { Observable } from "../services/Observer.ts";
 import type { ShoppingItem } from "../models/ShoppingItem.ts";
 import type { State } from "../models/State.ts";
-import { LocalStorageService } from "../services/LocalStorageService.ts";
+import { LocalStorageService } from "../services/storage/LocalStorageService.ts";
 
 
 export class ChangeItemStateCommand implements Command {

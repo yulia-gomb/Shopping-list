@@ -1,5 +1,5 @@
 import { Observable } from '../services/Observer';
-import { LocalStorageService } from '../services/LocalStorageService';
+import { LocalStorageService } from '../services/storage/LocalStorageService.ts';
 import type { Command } from "./Command.ts";
 import type { ShoppingItem } from "../models/ShoppingItem.ts";
 

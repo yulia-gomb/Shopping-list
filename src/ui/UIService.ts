@@ -1,9 +1,10 @@
 import type { Observable } from "../services/Observer.ts";
 import type { ShoppingItem } from "../models/ShoppingItem.ts";
-import { StateFactory } from "../factories/StateFactory.ts";
+import { StateFactory } from "../services/state/StateFactory.ts";
 import type { CommandManager } from "../services/CommandManager.ts";
 import { ChangeItemStateCommand } from "../patterns/ChangeItemStateCommand.ts";
 import { ItemComponent } from "./components/ItemComponent.ts";
+import { RemoveItemCommand } from "../patterns/RemoveItemCommand.ts";
 
 export class UIService {
     private listElement: HTMLElement;
@@ -37,7 +38,7 @@ export class UIService {
                     this.commandManager.executeCommand(command);
                 },
                 () => {
-                    const command = new ChangeItemStateCommand(this.items, item, StateFactory.getState('Removed'));
+                    const command = new RemoveItemCommand(this.items, item);
                     this.commandManager.executeCommand(command);
                 }
             );

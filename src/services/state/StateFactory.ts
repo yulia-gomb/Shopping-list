@@ -1,4 +1,4 @@
-import { ActiveState, PurchasedState, RemovedState, type State } from "../models/State.ts";
+import { ActiveState, PurchasedState, RemovedState, type State } from "../../models/State.ts";
 
 export class StateFactory {
     private static stateMap: Map<string, new () => State> = new Map([
