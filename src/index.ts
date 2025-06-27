@@ -1,4 +1,3 @@
-import './style.css'
 import { RegularItemFactory } from "./patterns/ItemFactory.ts";
 import { LocalStorageService } from "./services/storage/LocalStorageService.ts";
 import { Observable } from "./services/Observer.ts";
@@ -45,7 +44,7 @@ const addItem = (name: string, quantity: number, category: string, isPriority: b
     commandManager.executeCommand(command);
 };
 
-// Render category options
+// Render category options and initialize ControlPanel
 document.addEventListener('DOMContentLoaded', () => {
     const categorySelect = document.getElementById('item-category') as HTMLSelectElement;
 
@@ -59,8 +58,13 @@ document.addEventListener('DOMContentLoaded', () => {
         () => commandManager.redo()
     );
 
-    // Add the ControlPanel to the DOM
-    document.body.insertBefore(controlPanel, document.getElementById('shopping-list'));
+    // Check if #shopping-list exists and insert controlPanel before it
+    const shoppingListContainer = document.getElementById('shopping-list');
+    if (shoppingListContainer && shoppingListContainer.parentNode) {
+        shoppingListContainer.parentNode.insertBefore(controlPanel, shoppingListContainer);
+    } else {
+        console.error('Shopping list container (#shopping-list) not found.');
+    }
 });
 
 // Handle the "Add Item" button logic

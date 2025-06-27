@@ -16,8 +16,8 @@ export class ItemComponent {
 
         // Highlight prioritized items
         if ('isPriority' in item && (item as any).isPriority()) {
-            listItem.style.color = 'red'; // Set text color for priority items
-            listItem.style.fontWeight = 'bold'; // Make the text bold
+            listItem.style.color = 'red';
+            listItem.style.fontWeight = 'bold';
             listItem.textContent = `⭐ ${item.name} (${item.quantity}) - ${item.category}`;
         } else {
             listItem.textContent = `${item.name} (${item.quantity}) - ${item.category}`;
@@ -26,10 +26,12 @@ export class ItemComponent {
         // Add buttons
         const purchaseButton = document.createElement('button');
         purchaseButton.textContent = 'Purchased';
+        purchaseButton.classList.add('purchased');
         purchaseButton.onclick = onPurchase;
 
         const removeButton = document.createElement('button');
         removeButton.textContent = 'Remove';
+        removeButton.classList.add('remove');
         removeButton.onclick = onRemove;
 
         listItem.appendChild(purchaseButton);

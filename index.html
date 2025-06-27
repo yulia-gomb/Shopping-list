@@ -5,27 +5,25 @@
     <link rel="icon" type="image/svg+xml" href="public/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shopping list</title>
+    <link rel="stylesheet" href="./src/style.css" />
   </head>
   <body>
-  <h1>Shopping List</h1>
-  <div>
-    <input id="item-name" type="text" placeholder="Item name" />
-    <input id="item-quantity" type="number" placeholder="Quantity" />
-
-    <select id="item-category">
-      <!-- item-category -->
-    </select>
-
-    <label>
-      <input id="item-priority" type="checkbox" />
-      Priority
-    </label>
-
-    <button id="add-item-btn">Add Item</button>
+  <div id="app-container">
+    <h1>Shopping List</h1>
+    <div>
+      <input id="item-name" type="text" placeholder="Item name" />
+      <input id="item-quantity" type="number" placeholder="Quantity" />
+      <select id="item-category">
+        <!-- Categories added dynamically -->
+      </select>
+      <label>
+        <input id="item-priority" type="checkbox" />
+        Priority
+      </label>
+      <button id="add-item-btn">Add Item</button>
+    </div>
+    <ul id="shopping-list"></ul>
   </div>
-  <ul id="shopping-list">
-    <!-- shopping-list -->
-  </ul>
 
   <script type="module" src="./src/index.ts"></script>
   </body>

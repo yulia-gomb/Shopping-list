@@ -1,43 +1,141 @@
-/*:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    color: #333;
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+    text-align: center;
+    margin: 20px 0;
+    font-size: 2rem;
+    color: #222;
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}*/
+#app-container {
+    margin: 0 auto;
+    padding: 50px 100px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+input, select, button {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+input, select {
+    width: calc(30% - 10px);
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+label {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#undo-button, #redo-button {
+    background-color: #007BFF;
+    color: white;
+}
+
+#undo-button:hover, #redo-button:hover {
+    background-color: #0056b3;
+}
+
+div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+#shopping-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#shopping-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#shopping-list li:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#shopping-list li.priority {
+    background-color: #ffe4b5;
+    border-color: #ffaa00;
+}
+
+#shopping-list li.priority:hover {
+    background-color: #ffd59a;
+}
+
+#shopping-list li.purchased {
+    text-decoration: line-through;
+    color: #999;
+}
+
+/* Buttons inside list items */
+#shopping-list button {
+    padding: 5px 10px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#shopping-list button:hover {
+    background-color: #ddd;
+}
+
+#shopping-list button.purchased {
+    background-color: #007BFF;
+    color: white;
+}
+
+#shopping-list button.remove {
+    background-color: #FF4444;
+    color: white;
+}
+
+#shopping-list button.purchased:hover {
+    background-color: #45a049;
+}
+
+#shopping-list button.remove:hover {
+    background-color: #e02f2f;
+}
