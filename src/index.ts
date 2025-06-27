@@ -8,7 +8,7 @@ import { PrioritizedItem } from "./decorators/PrioritizedItem.ts";
 import { CategoryService } from "./services/CategoryService.ts";
 import { ControlPanel } from "./ui/components/ControlPanel.ts";
 
-// Function to dynamically render category options into a <select> element
+// Function to dynamically render category options
 const renderCategoryOptions = (categories: string[], selectElement: HTMLSelectElement): void => {
     selectElement.innerHTML = ''; // Clear any existing options
     categories.forEach((category) => {
@@ -26,7 +26,7 @@ const shoppingList = new Observable(initialData);
 // Initialize CommandManager
 const commandManager = new CommandManager();
 
-// Initialize UI (binds shopping list data with the DOM and adds CommandManager)
+// Initialize UI
 const listContainerId = 'shopping-list';
 new UIService(listContainerId, shoppingList, commandManager);
 
@@ -91,5 +91,4 @@ document.getElementById('add-item-btn')?.addEventListener('click', () => {
     }
 });
 
-// Notify the UI to render the initial shopping list data
 shoppingList.notify();

@@ -55,12 +55,20 @@ label {
     margin-bottom: 10px;
 }
 
-#undo-button, #redo-button {
+#add-item {
+
+}
+
+.control-panel {
+    justify-content: end;
+}
+
+.undo-button, .redo-button {
     background-color: #007BFF;
     color: white;
 }
 
-#undo-button:hover, #redo-button:hover {
+.undo-button:hover, .redo-button:hover {
     background-color: #0056b3;
 }
 
@@ -87,6 +95,11 @@ div {
     border: 1px solid #ddd;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#shopping-list span {
+    display: inline-block;
+    margin-right: 10px;
 }
 
 #shopping-list li:hover {

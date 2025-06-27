@@ -6,24 +6,24 @@ export class ItemComponent {
         onPurchase: () => void,
         onRemove: () => void
     ): HTMLElement {
-        // Create the list item element
         const listItem = document.createElement('li');
 
-        // Apply style for "Purchased"
+        const itemText = document.createElement('span');
+
         if (item.getState().name === 'Purchased') {
-            listItem.style.textDecoration = 'line-through';
+            itemText.style.textDecoration = 'line-through';
+            itemText.style.color = '#999';
         }
 
         // Highlight prioritized items
         if ('isPriority' in item && (item as any).isPriority()) {
-            listItem.style.color = 'red';
-            listItem.style.fontWeight = 'bold';
-            listItem.textContent = `⭐ ${item.name} (${item.quantity}) - ${item.category}`;
-        } else {
-            listItem.textContent = `${item.name} (${item.quantity}) - ${item.category}`;
+            itemText.style.color = 'red';
+            itemText.style.fontWeight = 'bold';
         }
 
-        // Add buttons
+        itemText.textContent = `${item.name} (${item.quantity}) - ${item.category}`;
+
+        // Add buttons for interaction
         const purchaseButton = document.createElement('button');
         purchaseButton.textContent = 'Purchased';
         purchaseButton.classList.add('purchased');
@@ -34,6 +34,7 @@ export class ItemComponent {
         removeButton.classList.add('remove');
         removeButton.onclick = onRemove;
 
+        listItem.appendChild(itemText);
         listItem.appendChild(purchaseButton);
         listItem.appendChild(removeButton);
 
