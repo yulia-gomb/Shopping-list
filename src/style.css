@@ -55,9 +55,79 @@ label {
     margin-bottom: 10px;
 }
 
+/* Styling for the Add Item Section */
 #add-item {
-
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
+
+#add-item .form-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 calc(33% - 15px);
+    min-width: 150px;
+}
+
+#add-item .form-group label {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 5px;
+    padding-left: 8px;
+    font-weight: bold;
+}
+
+#add-item .priority-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#add-item button {
+    flex: 1 1 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+#add-item button:hover {
+    background-color: #0056b3;
+}
+
+#add-item input, #add-item select, #add-item button {
+    padding: 8px 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#add-item input {
+    margin: 5px 0;
+}
+
+#add-item input[type='text'], #add-item input[type='number'], #add-item select {
+    flex: 1;
+    width: 100%;
+}
+
+#add-item input:focus, #add-item select:focus, #add-item button:focus {
+    outline: none;
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Styling for the Control Panel Section */
 
 .control-panel {
     justify-content: end;
@@ -136,7 +206,7 @@ div {
 }
 
 #shopping-list button.purchased {
-    background-color: #007BFF;
+    background-color: #45a055;
     color: white;
 }
 
